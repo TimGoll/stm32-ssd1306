@@ -194,7 +194,7 @@ void SSD1306_DrawBitmap(SSD1306_t *dev, uint8_t x, uint8_t y, uint8_t w, uint8_t
 void SSD1306_WriteCommand(SSD1306_t *dev, uint8_t data);
 
 /**
- * Writes a sequency of bytes to the display.
+ * Writes a sequence of bytes to the display.
  *
  * @intfunction
  *
