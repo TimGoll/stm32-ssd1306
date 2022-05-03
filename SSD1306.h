@@ -11,8 +11,7 @@
   ******************************************************************************
   */
 
-#ifndef SSD1306_H
-#define SSD1306_H
+#pragma once
 
 #include "stm32h7xx_hal.h"
 
@@ -201,5 +200,3 @@ void SSD1306_WriteCommand(SSD1306_t *dev, uint8_t data);
  * @param [in] *dev The display data struct that contains everything regarding the specific display instance
  */
 void SSD1306_WriteData(SSD1306_t *dev, uint8_t* buffer, size_t buff_size);
-
-#endif // SSD1306_H

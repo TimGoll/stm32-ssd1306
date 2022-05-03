@@ -204,8 +204,17 @@ char SSD1306_WriteChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Col
 }
 
 char SSD1306_WriteString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306_Color_t color) {
-	// Write until null-byte
-	while (SSD1306_WriteChar(dev, *str, font, color) != *str) {
+	while (1) {
+		char last_char = SSD1306_WriteChar(dev, *str, font, color);
+
+		if (last_char == '\0') {
+			break;
+		}
+
+		if (last_char != *str) {
+			break;
+		}
+
 		str++;
 	}
 

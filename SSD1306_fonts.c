@@ -298,6 +298,7 @@ static const uint16_t Font16x26 [] = {
 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x3F07,0x7FC7,0x73E7,0xF1FF,0xF07E,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000, // Ascii = [~]
 };
 #endif
+
 #ifdef SSD1306_INCLUDE_FONT_6x8
 static const uint16_t Font6x8 [] = {
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,  // space
@@ -399,17 +400,17 @@ static const uint16_t Font6x8 [] = {
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_6x8
-SSD1306_Font_t Font_6x8 = {6,8,Font6x8};
+SSD1306_Font_t SSD1306_font_6x8 = {6, 8, Font6x8};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_7x10
-SSD1306_Font_t Font_7x10 = {7,10,Font7x10};
+SSD1306_Font_t SSD1306_font_7x10 = {7, 10, Font7x10};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_11x18
-SSD1306_Font_t Font_11x18 = {11,18,Font11x18};
+SSD1306_Font_t SSD1306_font_11x18 = {11, 18, Font11x18};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_16x26
-SSD1306_Font_t Font_16x26 = {16,26,Font16x26};
+SSD1306_Font_t SSD1306_font_16x26 = {16, 26, Font16x26};
 #endif
