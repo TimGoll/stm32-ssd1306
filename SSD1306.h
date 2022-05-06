@@ -63,6 +63,15 @@ typedef struct {
 } SSD1306_Vertex_t;
 
 /**
+ * @brief A symbol data type.
+ */
+typedef struct {
+	const uint8_t width; ///< Bitmap width in pixels
+	const uint8_t height; ///< Bitmap height in pixels
+	const uint8_t *data; ///< Pointer to bitmap data array
+} SSD1306_Bitmap_t;
+
+/**
  * Initializes one external display. The set data is then added to the displays data struct.
  *
  * @param [in] *dev The display data struct that contains everything regarding the specific display instance
@@ -130,7 +139,7 @@ void SSD1306_DrawPixel(SSD1306_t *dev, uint8_t x, uint8_t y, SSD1306_Color_t col
  *
  * @retval char Returns the character if successful, 0 if not
  */
-char SSD1306_WriteChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Color_t color);
+char SSD1306_DrawChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Color_t color);
 
 /**
  * Writes full string to screen buffer.
@@ -139,7 +148,9 @@ char SSD1306_WriteChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Col
  *
  * @retval char Returns the first character of the string after successful write
  */
-char SSD1306_WriteString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306_Color_t color);
+char SSD1306_DrawString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306_Color_t color);
+
+void SSD1306_DrawBitmap(SSD1306_t *dev, SSD1306_Bitmap_t bitmap, SSD1306_Color_t color);
 
 /**
  * Sets the cursor position to the provided values.
@@ -175,13 +186,6 @@ void SSD1306_DrawCircle(SSD1306_t *dev, uint8_t x, uint8_t y, uint8_t radius, SS
  * @param [in] *dev The display data struct that contains everything regarding the specific display instance
  */
 void SSD1306_DrawRectangle(SSD1306_t *dev, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, SSD1306_Color_t color);
-
-/**
- * Draws a bitmap.
- *
- * @param [in] *dev The display data struct that contains everything regarding the specific display instance
- */
-void SSD1306_DrawBitmap(SSD1306_t *dev, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* bitmap, SSD1306_Color_t color);
 
 /**
  * Sends a byte to the command register.

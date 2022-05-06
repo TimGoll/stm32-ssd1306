@@ -172,12 +172,12 @@ void SSD1306_DrawPixel(SSD1306_t *dev, uint8_t x, uint8_t y, SSD1306_Color_t col
 	dev->is_dirty = 1;
 }
 
-char SSD1306_WriteChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Color_t color) {
+char SSD1306_DrawChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Color_t color) {
 	// Check if character is valid
 	if (ch < 32 || ch > 126)
 		return 0;
 
-	// Check remaining space on current line
+	// Check remaining space
 	if (dev->width < (dev->cur_x + font.char_width) || dev->height < (dev->cur_y + font.char_height)) {
 		// Not enough space on current line
 		return 0;
@@ -203,9 +203,9 @@ char SSD1306_WriteChar(SSD1306_t *dev, char ch, SSD1306_Font_t font, SSD1306_Col
 	return ch;
 }
 
-char SSD1306_WriteString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306_Color_t color) {
+char SSD1306_DrawString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306_Color_t color) {
 	while (1) {
-		char last_char = SSD1306_WriteChar(dev, *str, font, color);
+		char last_char = SSD1306_DrawChar(dev, *str, font, color);
 
 		if (last_char == '\0') {
 			break;
@@ -219,6 +219,35 @@ char SSD1306_WriteString(SSD1306_t *dev, char* str, SSD1306_Font_t font, SSD1306
 	}
 
 	return *str;
+}
+
+void SSD1306_DrawBitmap(SSD1306_t *dev, SSD1306_Bitmap_t bitmap, SSD1306_Color_t color) {
+	// Check remaining space
+	if (dev->width < (dev->cur_x + bitmap.width) || dev->height < (dev->cur_y + bitmap.height)) {
+		return;
+	}
+
+	uint8_t bytes_per_row = (bitmap.width + 7) / 8; // Bitmap scan line pad = whole byte
+	uint8_t byte = 0;
+
+	for (uint8_t j = 0; j < bitmap.height; j++) {
+		for (uint8_t i = 0; i < bitmap.width; i++) {
+			if (i & 7) {
+				byte <<= 1;
+			} else {
+				byte = (*(uint8_t *)(&bitmap.data[j * bytes_per_row + i / 8]));
+			}
+
+			if (byte & 0x80) {
+				SSD1306_DrawPixel(dev, dev->cur_x + i, dev->cur_y + j, (SSD1306_Color_t) color);
+			} else {
+				SSD1306_DrawPixel(dev, dev->cur_x + i, dev->cur_y + j, (SSD1306_Color_t) !color);
+			}
+		}
+	}
+
+	// The current space is now taken
+	dev->cur_x += bitmap.width;
 }
 
 void SSD1306_SetCursor(SSD1306_t *dev, uint8_t x, uint8_t y) {
@@ -306,29 +335,6 @@ void SSD1306_DrawRectangle(SSD1306_t *dev, uint8_t x1, uint8_t y1, uint8_t x2, u
 	SSD1306_DrawLine(dev, x2, y1, x2, y2, color);
 	SSD1306_DrawLine(dev, x2, y2, x1, y2, color);
 	SSD1306_DrawLine(dev, x1, y2, x1, y1, color);
-}
-
-void SSD1306_DrawBitmap(SSD1306_t *dev, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* bitmap, SSD1306_Color_t color) {
-	if (x >= dev->width || y >= dev->height) {
-		return;
-	}
-
-	uint8_t byte_width = (w + 7) / 8; // Bitmap scan line pad = whole byte
-	uint8_t byte = 0;
-
-	for (uint8_t j = 0; j < h; j++, y++) {
-		for (uint8_t i = 0; i < w; i++) {
-			if (i & 7) {
-				byte <<= 1;
-			} else {
-				byte = (*(uint8_t *)(&bitmap[j * byte_width + i / 8]));
-			}
-
-			if (byte & 0x80) {
-				SSD1306_DrawPixel(dev, x + i, y, color);
-			}
-		}
-	}
 }
 
 // HELPPERS //
