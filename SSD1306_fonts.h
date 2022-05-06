@@ -1,12 +1,17 @@
 #pragma once
 
+#define SSD1606_FONT_START_SPECIAL_CHARS 1
+#define SSD1606_FONT_MAX_SPECIAL_CHARS 16
+
 /**
  * @brief A font data type.
  */
 typedef struct {
-	const uint8_t char_width; ///< Character width in pixels
-	const uint8_t char_height; ///< Character height in pixels
-	const uint16_t *data; ///< Pointer to font data array
+	const uint8_t char_width; ///< character width in pixels
+	const uint8_t char_height; ///< character height in pixels
+	const uint16_t *data; ///< pointer to font data array
+	uint16_t *s_data; ///< pointer to the special char array
+	uint8_t s_data_amount; ///< amount of special characters registered
 } SSD1306_Font_t;
 
 #ifdef SSD1306_INCLUDE_FONT_6x8
@@ -108,7 +113,9 @@ typedef struct {
 		0x4000, 0xa800, 0x1000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,  // ~
 	};
 
-	static const SSD1306_Font_t SSD1306_font_6x8 = {6, 8, Font6x8};
+	static uint16_t Font6x8_special[SSD1606_FONT_MAX_SPECIAL_CHARS * 8];
+
+	static SSD1306_Font_t SSD1306_font_6x8 = {6, 8, Font6x8, Font6x8_special, 0};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_7x10
@@ -210,7 +217,9 @@ typedef struct {
 		0x0000, 0x0000, 0x0000, 0x7400, 0x4C00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,  // ~
 	};
 
-	static const SSD1306_Font_t SSD1306_font_7x10 = {7, 10, Font7x10};
+	static uint16_t Font7x10_special[SSD1606_FONT_MAX_SPECIAL_CHARS * 10];
+
+	static SSD1306_Font_t SSD1306_font_7x10 = {7, 10, Font7x10, Font7x10_special, 0};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_11x18
@@ -312,7 +321,9 @@ typedef struct {
 		0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x3880, 0x7F80, 0x4700, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,   // ~
 	};
 
-	static const SSD1306_Font_t SSD1306_font_11x18 = {11, 18, Font11x18};
+	static uint16_t Font11x18_special[SSD1606_FONT_MAX_SPECIAL_CHARS * 18];
+
+	static SSD1306_Font_t SSD1306_font_11x18 = {11, 18, Font11x18, Font11x18_special, 0};
 #endif
 
 #ifdef SSD1306_INCLUDE_FONT_16x26
@@ -414,5 +425,7 @@ typedef struct {
 		0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x3F07, 0x7FC7, 0x73E7, 0xF1FF, 0xF07E, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, // ~
 	};
 
-	static const SSD1306_Font_t SSD1306_font_16x26 = {16, 26, Font16x26};
+	static uint16_t Font16x26_special[SSD1606_FONT_MAX_SPECIAL_CHARS * 26];
+
+	static SSD1306_Font_t SSD1306_font_16x26 = {16, 26, Font16x26, Font16x26_special, 0};
 #endif

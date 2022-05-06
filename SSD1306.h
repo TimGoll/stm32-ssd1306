@@ -187,6 +187,8 @@ void SSD1306_DrawCircle(SSD1306_t *dev, uint8_t x, uint8_t y, uint8_t radius, SS
  */
 void SSD1306_DrawRectangle(SSD1306_t *dev, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, SSD1306_Color_t color);
 
+uint8_t SSD1606Font_AddSpecialChar(SSD1306_Font_t *font, const uint16_t *s_char);
+
 /**
  * Sends a byte to the command register.
  *
